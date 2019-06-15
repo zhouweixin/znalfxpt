@@ -12,14 +12,14 @@ import javax.validation.constraints.NotNull;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty("主键:自增长")
+    @ApiModelProperty(value = "主键:自增长")
     private Integer id;
 
     @NotNull(message = "姓名不能为空")
-    @ApiModelProperty("姓名")
+    @ApiModelProperty(value = "姓名")
     private String name;
 
-    @ApiModelProperty("年龄")
+    @ApiModelProperty(value = "年龄")
     @NotNull(message = "年龄不能为空")
     private Integer age;
 
