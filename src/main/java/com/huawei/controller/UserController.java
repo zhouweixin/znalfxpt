@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 
@@ -61,8 +60,7 @@ public class UserController {
     public Result<Page<User>> findAllByPage(
             @ApiParam(value = "页码(默认为0)", defaultValue = "0") @RequestParam(defaultValue = "0") Integer page,
             @ApiParam(value = "每页记录数(默认为10)", defaultValue = "10") @RequestParam(defaultValue = "10") Integer size,
-            // TODO 数组初始化问题
-            @ApiParam(value = "排序字段名(默认为id)", defaultValue = "") @RequestParam(defaultValue = "") String[] sortFieldNames,
+            @ApiParam(value = "排序字段名(至少传1个字段名)") @RequestParam String[] sortFieldNames,
             @ApiParam(value = "排序方向(0:降序；1升序；默认为1)", defaultValue = "1") @RequestParam(defaultValue = "1") Integer asc) {
         return ResultUtil.success(userService.findAllByPage(page, size, sortFieldNames, asc));
     }
@@ -85,7 +83,7 @@ public class UserController {
             @ApiParam(value = "姓名") @RequestParam String name,
             @ApiParam(value = "页码(默认为0)", defaultValue = "0") @RequestParam(defaultValue = "0") Integer page,
             @ApiParam(value = "每页记录数(默认为10)", defaultValue = "10") @RequestParam(defaultValue = "10") Integer size,
-            @ApiParam(value = "排序字段名(默认为id)", defaultValue = "") @RequestParam(defaultValue = "") String[] sortFieldNames,
+            @ApiParam(value = "排序字段名(至少传1个字段名)") @RequestParam String[] sortFieldNames,
             @ApiParam(value = "排序方向(0:降序；1升序；默认为1)", defaultValue = "1") @RequestParam(defaultValue = "1") Integer asc) {
         return ResultUtil.success(userService.findByNameLikeByPage(name, page, size, sortFieldNames, asc));
     }

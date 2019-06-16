@@ -19,7 +19,7 @@ public class ExceptionHandle {
             return ResultUtil.error((ExceptionUtil) e);
         }  else {
             logger.error("【系统异常】 {}", e.getMessage());
-            return ResultUtil.error(ExceptionUtil.newInstance(ExceptionEnum.UNKOWN_ERROR));
+            return ResultUtil.error(e.getMessage());
         }
     }
 }
