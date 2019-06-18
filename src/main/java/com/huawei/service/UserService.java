@@ -79,8 +79,7 @@ public class UserService {
      * @return
      */
     public User findById(int id) {
-        Optional<User> optional = userDao.findById(id);
-        return optional.orElse(null);
+        return userDao.findById(id).orElse(null);
     }
 
     /**

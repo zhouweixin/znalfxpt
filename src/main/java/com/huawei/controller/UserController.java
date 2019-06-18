@@ -80,7 +80,7 @@ public class UserController {
     @GetMapping(value = "/findByNameLikeByPage")
     @ApiOperation(value = "通过姓名模糊查询-分页")
     public Result<Page<User>> findByNameLikeByPage(
-            @ApiParam(value = "姓名") @RequestParam String name,
+            @ApiParam(value = "姓名", defaultValue = "") @RequestParam(defaultValue = "") String name,
             @ApiParam(value = "页码(默认为0)", defaultValue = "0") @RequestParam(defaultValue = "0") Integer page,
             @ApiParam(value = "每页记录数(默认为10)", defaultValue = "10") @RequestParam(defaultValue = "10") Integer size,
             @ApiParam(value = "排序字段名(至少传1个字段名)") @RequestParam String[] sortFieldNames,
