@@ -9,7 +9,7 @@ public enum ExceptionEnum {
     UNKOWN_ERROR(-1, "未知错误"),
     SUCCESS(0, "操作成功"),
     ADD_FAIL_EXISTS(1, "新增失败, 已存在"),
-    UPDATE_FAIL_NOT_EXISTS(2, "更新失败, 不存在"),
+    UPDATE_FAIL_NOT_EXISTS(2, "更新失败, id为空或不存在"),
 
     ;
 
