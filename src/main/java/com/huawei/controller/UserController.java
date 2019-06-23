@@ -65,9 +65,9 @@ public class UserController {
         return ResultUtil.success(userService.findAllByPage(page, size, sortFieldNames, asc));
     }
 
-    @GetMapping(value = "/findById")
+    @GetMapping(value = "/findById/{id}")
     @ApiOperation(value = "通过主键查询")
-    public Result<User> findById(@ApiParam(value = "主键") @RequestParam int id){
+    public Result<User> findById(@ApiParam(value = "主键") @PathVariable int id){
         return ResultUtil.success(userService.findById(id));
     }
 
