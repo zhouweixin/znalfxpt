@@ -17,6 +17,9 @@ public class Book {
     @ApiModelProperty(value = "价格")
     private Double price;
 
+    @ApiModelProperty(value = "卖出数量")
+    private Integer sellNum;
+
     public Integer getId() {
         return id;
     }
@@ -39,5 +42,13 @@ public class Book {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Integer getSellNum() {
+        return sellNum;
+    }
+
+    public void setSellNum(Integer sellNum) {
+        this.sellNum = sellNum;
     }
 }

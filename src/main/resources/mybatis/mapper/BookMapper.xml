@@ -11,8 +11,9 @@
     <update id="update">
         update book
         <set>
-            <if test="name!=null">name=#{name}</if>
-            <if test="price!=null">price=#{price}</if>
+            <if test="name!=null">name=#{name},</if>
+            <if test="price!=null">price=#{price},</if>
+            <if test="sellNum!=null">sell_num=#{sellNum}</if>
         </set>
         where id=#{id}
     </update>
