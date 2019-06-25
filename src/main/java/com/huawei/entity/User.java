@@ -27,6 +27,9 @@ public class User {
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
 
+    @ApiModelProperty(value = "图片id")
+    private Long imageId;
+
     public Integer getId() {
         return id;
     }
@@ -57,5 +60,13 @@ public class User {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public Long getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(Long imageId) {
+        this.imageId = imageId;
     }
 }
