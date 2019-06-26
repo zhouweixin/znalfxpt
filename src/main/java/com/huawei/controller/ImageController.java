@@ -46,7 +46,7 @@ public class ImageController {
      * @return
      */
     @GetMapping(value = "/{id}")
-    @ApiOperation(value = "查询图片(直接写在a标签就可显示)")
+    @ApiOperation(value = "查询图片(直接写在img标签就可显示)")
     public Result<Object> getImage(@ApiParam(value = "主键") @PathVariable Long id, HttpServletResponse response) {
         imageService.findOne(id, response);
         return ResultUtil.success();
