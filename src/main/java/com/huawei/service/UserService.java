@@ -1,6 +1,7 @@
 package com.huawei.service;
 
 import com.huawei.dao.UserDao;
+import com.huawei.entity.Department;
 import com.huawei.entity.User;
 import com.huawei.global.ExceptionEnum;
 import com.huawei.global.ExceptionUtil;
@@ -128,4 +129,10 @@ public class UserService {
     }
 
 
+    public List<User> findByDepartmentId(int departmentId) {
+        Department department = new Department();
+        department.setId(departmentId);
+
+        return userDao.findByDepartment(department);
+    }
 }

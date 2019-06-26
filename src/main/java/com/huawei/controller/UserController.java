@@ -102,4 +102,10 @@ public class UserController {
         userService.updateNameById(id, name);
         return ResultUtil.success();
     }
+
+    @PostMapping(value = "/findByDepartmentId")
+    @ApiOperation(value = "通过部门id查询所有用户")
+     public Result<List<User>> findByDepartmentId(@ApiParam(value = "主键") @RequestParam int departmentId){
+        return ResultUtil.success(userService.findByDepartmentId(departmentId));
+     }
 }

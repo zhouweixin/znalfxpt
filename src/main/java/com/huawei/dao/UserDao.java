@@ -1,5 +1,6 @@
 package com.huawei.dao;
 
+import com.huawei.entity.Department;
 import com.huawei.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,4 +44,6 @@ public interface UserDao extends JpaRepository<User, Integer> {
      * @return
      */
     Page<User> findByNameLike(String name, Pageable pageable);
+
+    List<User> findByDepartment(Department department);
 }
