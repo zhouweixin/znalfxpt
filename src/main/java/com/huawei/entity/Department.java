@@ -16,8 +16,8 @@ public class Department {
     @ApiModelProperty(value = "主键:自增长")
     private Integer id;
 
-    @NotNull(message = "姓名不能为空")
-    @ApiModelProperty(value = "姓名")
+    @NotNull(message = "名称不能为空")
+    @ApiModelProperty(value = "名称")
     private String name;
 
     public Integer getId() {

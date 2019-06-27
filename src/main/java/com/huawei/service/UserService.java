@@ -1,5 +1,6 @@
 package com.huawei.service;
 
+import com.huawei.dao.DepartmentDao;
 import com.huawei.dao.UserDao;
 import com.huawei.entity.Department;
 import com.huawei.entity.User;
@@ -23,6 +24,9 @@ public class UserService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private DepartmentDao departmentDao;
+
     /**
      * 新增
      *
@@ -32,6 +36,13 @@ public class UserService {
     public User add(User user) {
         if (user.getId() != null && userDao.findById(user.getId()).isPresent()) {
             throw ExceptionUtil.newInstance(ExceptionEnum.ADD_FAIL_EXISTS);
+        }
+
+        if (user.getDepartment() != null
+                && (user.getDepartment().getId() == null
+                || (user.getDepartment().getId() != null
+                && !departmentDao.findById(user.getDepartment().getId()).isPresent()))) {
+            throw ExceptionUtil.newInstance(ExceptionEnum.ADD_FAILED_DEPARTMENT_NOT_EXISTS);
         }
 
         return userDao.save(user);
