@@ -1,6 +1,9 @@
 spring:
   profiles:
     active: dev
+  jackson:
+    time-zone: CTT
+    date-format: yyyy-MM-dd HH:mm:ss
 server:
   servlet:
     context-path: /znalfxpt
