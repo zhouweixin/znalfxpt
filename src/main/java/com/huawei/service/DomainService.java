@@ -32,6 +32,10 @@ public class DomainService {
             throw ExceptionUtil.newInstance(ExceptionEnum.ADD_FAIL_EXISTS);
         }
 
+        if(domainDao.findByName(domain.getName()) != null){
+            throw ExceptionUtil.newInstance(ExceptionEnum.ADD_FAILED_NAME_DUP);
+        }
+
         return domainDao.save(domain);
     }
 
@@ -44,6 +48,11 @@ public class DomainService {
     public Domain update(Domain domain) {
         if (domain.getId() == null || !domainDao.findById(domain.getId()).isPresent()) {
             throw ExceptionUtil.newInstance(ExceptionEnum.UPDATE_FAIL_NOT_EXISTS);
+        }
+
+        Domain temp = domainDao.findByName(domain.getName());
+        if(temp != null && temp.getId() != domain.getId()){
+            throw ExceptionUtil.newInstance(ExceptionEnum.UPDATE_FAILED_NAME_DUP);
         }
 
         return domainDao.save(domain);
