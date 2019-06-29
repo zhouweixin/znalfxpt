@@ -1,8 +1,6 @@
 package com.huawei.service;
 
-import com.huawei.dao.DepartmentDao;
 import com.huawei.dao.IssueDao;
-import com.huawei.entity.Department;
 import com.huawei.entity.Issue;
 import com.huawei.global.ExceptionEnum;
 import com.huawei.global.ExceptionUtil;
@@ -16,40 +14,44 @@ import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class IssueService {
 
     @Autowired
-    private IssueDao domainDao;
+    private IssueDao issueDao;
 
     /**
      * 新增
      *
-     * @param domain
+     * @param issue
      * @return
      */
-    public Issue add(Issue domain) {
-        if (domain.getId() != null && domainDao.findById(domain.getId()).isPresent()) {
+    public Issue add(Issue issue) {
+        if (issue.getId() != null && issueDao.findById(issue.getId()).isPresent()) {
             throw ExceptionUtil.newInstance(ExceptionEnum.ADD_FAIL_EXISTS);
         }
+        issue.setCreateTime(new Date());
 
-        return domainDao.save(domain);
+        return issueDao.save(issue);
     }
 
     /**
      * 更新
      *
-     * @param domain
+     * @param issue
      * @return
      */
-    public Issue update(Issue domain) {
-        if (domain.getId() == null || !domainDao.findById(domain.getId()).isPresent()) {
+    public Issue update(Issue issue) {
+        Optional<Issue> optional = null;
+        if (issue.getId() == null || !(optional=issueDao.findById(issue.getId())).isPresent()) {
             throw ExceptionUtil.newInstance(ExceptionEnum.UPDATE_FAIL_NOT_EXISTS);
         }
 
-        domain.setUpdateTime(new Date());
-        return domainDao.save(domain);
+        issue.setCreateTime(optional.get().getCreateTime());
+        issue.setUpdateTime(new Date());
+        return issueDao.save(issue);
     }
 
     /**
@@ -58,7 +60,7 @@ public class IssueService {
      * @return
      */
     public List<Issue> findAll() {
-        return domainDao.findAll();
+        return issueDao.findAll();
     }
 
     /**
@@ -71,7 +73,7 @@ public class IssueService {
      * @return
      */
     public Page<Issue> findAllByPage(Integer page, Integer size, String[] sortFieldNames, Integer asc) {
-        return domainDao.findAll(PageRequest.of(page, size, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, sortFieldNames));
+        return issueDao.findAll(PageRequest.of(page, size, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, sortFieldNames));
     }
 
     /**
@@ -81,7 +83,7 @@ public class IssueService {
      * @return
      */
     public Issue findById(Long id) {
-        return domainDao.findById(id).orElse(null);
+        return issueDao.findById(id).orElse(null);
     }
 
     /**
@@ -91,18 +93,18 @@ public class IssueService {
      */
     @Transactional
     public void deleteByIds(Integer[] ids) {
-        domainDao.deleteByIdIn(Arrays.asList(ids));
+        issueDao.deleteByIdIn(Arrays.asList(ids));
     }
 
-    public List<Issue> findByDomainIdAndTypeId(Integer domainId, Integer typeId) {
-        if(domainId == -1 && typeId == -1){
+    public List<Issue> findByDomainIdAndTypeId(Integer issueId, Integer typeId) {
+        if(issueId == -1 && typeId == -1){
 
-        } else if(domainId == -1 && typeId != -1){
+        } else if(issueId == -1 && typeId != -1){
 
-        } else if(domainId != -1 && typeId == -1){
+        } else if(issueId != -1 && typeId == -1){
 
         } else{
-//            return domainDao.findByDomainIdAndTypeId(domainId, typeId);
+//            return issueDao.findByDomainIdAndTypeId(issueId, typeId);
         }
         return null;
     }

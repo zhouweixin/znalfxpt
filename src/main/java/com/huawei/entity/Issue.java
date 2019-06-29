@@ -24,7 +24,7 @@ public class Issue {
     @ApiModelProperty(value = "创建时间, 后端生成")
     @Temporal(value = TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime = new Date();
+    private Date createTime;
 
     @ApiModelProperty(value = "更新时间, 后端生成")
     @Temporal(value = TemporalType.TIMESTAMP)
