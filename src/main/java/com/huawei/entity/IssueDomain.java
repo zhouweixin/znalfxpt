@@ -20,9 +20,9 @@ public class IssueDomain {
     private Issue issue;
 
     @ApiModelProperty(value = "领域外键")
-    @ManyToOne(targetEntity = Domain.class)
+    @ManyToOne(targetEntity = Project.class)
     @JoinColumn(name = "domain_id", referencedColumnName = "id")
-    private Domain domain;
+    private Project project;
 
     public Long getId() {
         return id;
@@ -40,11 +40,11 @@ public class IssueDomain {
         this.issue = issue;
     }
 
-    public Domain getDomain() {
-        return domain;
+    public Project getProject() {
+        return project;
     }
 
-    public void setDomain(Domain domain) {
-        this.domain = domain;
+    public void setProject(Project project) {
+        this.project = project;
     }
 }

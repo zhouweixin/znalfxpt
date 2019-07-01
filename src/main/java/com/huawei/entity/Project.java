@@ -11,7 +11,7 @@ import java.util.Date;
 @Entity
 @Table(name = "domain")
 @ApiModel(description = "领域")
-public class Domain {
+public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(value = "主键:自增长")

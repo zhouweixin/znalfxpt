@@ -1,12 +1,11 @@
 package com.huawei.dao;
 
-import com.huawei.entity.Domain;
-import com.huawei.entity.Issue;
+import com.huawei.entity.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface DomainDao extends JpaRepository<Domain, Integer> {
+public interface ProjectDao extends JpaRepository<Project, Integer> {
 
     /**
      * 通过id批量删除
@@ -21,5 +20,5 @@ public interface DomainDao extends JpaRepository<Domain, Integer> {
      * @param name 名称
      * @return domain
      */
-    Domain findByName(String name);
+    Project findByName(String name);
 }

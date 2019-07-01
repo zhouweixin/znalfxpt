@@ -23,6 +23,9 @@ public class User {
     @NotNull(message = "年龄不能为空")
     private Integer age;
 
+    @ApiModelProperty(value = "性别")
+    private Integer sex;
+
     @ManyToOne(targetEntity = Department.class)
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
@@ -68,5 +71,13 @@ public class User {
 
     public void setImageId(Long imageId) {
         this.imageId = imageId;
+    }
+
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
     }
 }

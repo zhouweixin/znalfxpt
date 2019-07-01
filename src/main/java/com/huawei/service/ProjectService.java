@@ -1,7 +1,7 @@
 package com.huawei.service;
 
-import com.huawei.dao.DomainDao;
-import com.huawei.entity.Domain;
+import com.huawei.dao.ProjectDao;
+import com.huawei.entity.Project;
 import com.huawei.global.ExceptionEnum;
 import com.huawei.global.ExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,50 +12,49 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @Service
-public class DomainService {
+public class ProjectService {
 
     @Autowired
-    private DomainDao domainDao;
+    private ProjectDao projectDao;
 
     /**
      * 新增
      *
-     * @param domain
+     * @param project
      * @return
      */
-    public Domain add(Domain domain) {
-        if (domain.getId() != null && domainDao.findById(domain.getId()).isPresent()) {
+    public Project add(Project project) {
+        if (project.getId() != null && projectDao.findById(project.getId()).isPresent()) {
             throw ExceptionUtil.newInstance(ExceptionEnum.ADD_FAIL_EXISTS);
         }
 
-        if(domainDao.findByName(domain.getName()) != null){
+        if(projectDao.findByName(project.getName()) != null){
             throw ExceptionUtil.newInstance(ExceptionEnum.ADD_FAILED_NAME_DUP);
         }
 
-        return domainDao.save(domain);
+        return projectDao.save(project);
     }
 
     /**
      * 更新
      *
-     * @param domain
+     * @param project
      * @return
      */
-    public Domain update(Domain domain) {
-        if (domain.getId() == null || !domainDao.findById(domain.getId()).isPresent()) {
+    public Project update(Project project) {
+        if (project.getId() == null || !projectDao.findById(project.getId()).isPresent()) {
             throw ExceptionUtil.newInstance(ExceptionEnum.UPDATE_FAIL_NOT_EXISTS);
         }
 
-        Domain temp = domainDao.findByName(domain.getName());
-        if(temp != null && temp.getId() != domain.getId()){
+        Project temp = projectDao.findByName(project.getName());
+        if(temp != null && temp.getId() != project.getId()){
             throw ExceptionUtil.newInstance(ExceptionEnum.UPDATE_FAILED_NAME_DUP);
         }
 
-        return domainDao.save(domain);
+        return projectDao.save(project);
     }
 
     /**
@@ -63,8 +62,8 @@ public class DomainService {
      *
      * @return
      */
-    public List<Domain> findAll() {
-        return domainDao.findAll();
+    public List<Project> findAll() {
+        return projectDao.findAll();
     }
 
     /**
@@ -76,8 +75,8 @@ public class DomainService {
      * @param asc
      * @return
      */
-    public Page<Domain> findAllByPage(Integer page, Integer size, String[] sortFieldNames, Integer asc) {
-        return domainDao.findAll(PageRequest.of(page, size, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, sortFieldNames));
+    public Page<Project> findAllByPage(Integer page, Integer size, String[] sortFieldNames, Integer asc) {
+        return projectDao.findAll(PageRequest.of(page, size, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, sortFieldNames));
     }
 
     /**
@@ -86,8 +85,8 @@ public class DomainService {
      * @param id
      * @return
      */
-    public Domain findById(Integer id) {
-        return domainDao.findById(id).orElse(null);
+    public Project findById(Integer id) {
+        return projectDao.findById(id).orElse(null);
     }
 
     /**
@@ -97,6 +96,6 @@ public class DomainService {
      */
     @Transactional
     public void deleteByIds(Integer[] ids) {
-        domainDao.deleteByIdIn(Arrays.asList(ids));
+        projectDao.deleteByIdIn(Arrays.asList(ids));
     }
 }

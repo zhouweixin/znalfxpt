@@ -2,6 +2,7 @@ package com.huawei.service;
 
 import com.huawei.dao.IssueDao;
 import com.huawei.entity.Issue;
+import com.huawei.entity.User;
 import com.huawei.global.ExceptionEnum;
 import com.huawei.global.ExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
