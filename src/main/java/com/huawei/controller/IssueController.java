@@ -78,4 +78,10 @@ public class IssueController {
                                                  @ApiParam(value = "种类主键, -1表示所有", defaultValue = "-1") @RequestParam(defaultValue = "-1") Integer typeId){
         return ResultUtil.success(issueService.findByDomainIdAndTypeId(domainId, typeId));
     }
+
+    @GetMapping(value = "/findByProcessId")
+    @ApiOperation(value = "通过流程id查询")
+    public Result<List<Issue>> findByProcessId(@ApiParam(value = "流程主键") @RequestParam Integer processId){
+        return ResultUtil.success(issueService.findByProcessId(processId));
+    }
 }

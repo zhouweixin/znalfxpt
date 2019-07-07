@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>echarts测试</title>
+    <script src="js/echarts-dist/echarts.js"></script>
+</head>
+<body>
+<div id="main" style="height:600px"></div>
+<script type="text/javascript">
+
+    // 1.从后端请求数据
+    responseData =
+        {
+            "code": 0,
+            "message": "操作成功",
+            "data": {
+                "id": 1, "name": "我的流程1", "content": "遇到哪方面的问题？", "userType": 0, "questionType": 0, "processes": [{
+                    "id": 2, "name": null, "content": "FPGA加载不成功", "userType": 1, "questionType": 0, "processes": [{
+                        "id": 3,
+                        "name": null,
+                        "content": "请选择加载模式：\r\n\t\ta.SPI模拟JATG\r\n\t\tb.CPLD加载",
+                        "userType": 0,
+                        "questionType": 1,
+                        "processes": [{
+                            "id": 4,
+                            "name": null,
+                            "content": "a.SPI模拟JATG",
+                            "userType": 1,
+                            "questionType": 0,
+                            "processes": [{
+                                "id": 6,
+                                "name": null,
+                                "content": "请选择GPU类型：\r\n\ta.Hi1212\r\n\tb.Hi1213\r\n\tc.Hi1215",
+                                "userType": 0,
+                                "questionType": 1,
+                                "processes": [{
+                                    "id": 7,
+                                    "name": null,
+                                    "content": "a.Hi1212",
+                                    "userType": 1,
+                                    "questionType": 0,
+                                    "processes": [{
+                                        "id": 13,
+                                        "name": null,
+                                        "content": "请输入关键现象",
+                                        "userType": 0,
+                                        "questionType": 0,
+                                        "processes": [{
+                                            "id": 14,
+                                            "name": null,
+                                            "content": "网口ping不通",
+                                            "userType": 1,
+                                            "questionType": 0,
+                                            "processes": []
+                                        }, {
+                                            "id": 15,
+                                            "name": null,
+                                            "content": "关键现象2",
+                                            "userType": 0,
+                                            "questionType": 0,
+                                            "processes": []
+                                        }]
+                                    }]
+                                }, {
+                                    "id": 8,
+                                    "name": null,
+                                    "content": "b.Hi1213",
+                                    "userType": 1,
+                                    "questionType": 0,
+                                    "processes": [{
+                                        "id": 16,
+                                        "name": null,
+                                        "content": "请输入关键现象",
+                                        "userType": 0,
+                                        "questionType": 0,
+                                        "processes": [{
+                                            "id": 17,
+                                            "name": null,
+                                            "content": "关键现象3",
+                                            "userType": 0,
+                                            "questionType": 0,
+                                            "processes": []
+                                        }]
+                                    }]
+                                }, {
+                                    "id": 9,
+                                    "name": null,
+                                    "content": "c.Hi1215",
+                                    "userType": 1,
+                                    "questionType": 0,
+                                    "processes": []
+                                }]
+                            }]
+                        }, {
+                            "id": 5,
+                            "name": null,
+                            "content": "b.CPLD加载",
+                            "userType": 1,
+                            "questionType": 0,
+                            "processes": [{
+                                "id": 10,
+                                "name": null,
+                                "content": "加载完成后，FPGA指示灯状态：\r\n\ta.亮\r\n\tb.灭",
+                                "userType": 0,
+                                "questionType": 1,
+                                "processes": [{
+                                    "id": 11,
+                                    "name": null,
+                                    "content": "a.亮",
+                                    "userType": 1,
+                                    "questionType": 0,
+                                    "processes": []
+                                }, {
+                                    "id": 12,
+                                    "name": null,
+                                    "content": "b.灭",
+                                    "userType": 1,
+                                    "questionType": 0,
+                                    "processes": []
+                                }]
+                            }]
+                        }]
+                    }]
+                }]
+            }
+        }
+
+    // 2.处理数据
+    // 定义函数
+    function parseData(data) {
+        if (data == null) {
+            return data;
+        }
+
+        data.value = data.id;
+        data.name1 = data.name;
+        data.name = data.content;
+        data.children = data.processes;
+        data.processes = null;
+
+        for (var i = 0; i < data.children.length; i++) {
+            data.children[i] = parseData(data.children[i])
+        }
+        return data
+    }
+
+    // 调用处理
+    data = parseData(responseData.data);
+
+
+    // 3.调用Echars呈现
+    require.config({
+        paths: {
+            echarts: 'js/echarts-dist'
+        }
+    });
+
+    require(
+        ['echarts', 'echarts/chart/tree'],
+        function (ec) {
+            var myChart = ec.init(document.getElementById("main"));
+            // 修改的代码
+            // 开始
+            option = {
+                title: {
+                    text: '树图',
+                    subtext: '真实数据'
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: {show: true},
+                        dataView: {show: true, readOnly: false},
+                        restore: {show: true},
+                        saveAsImage: {show: true}
+                    }
+                },
+                calculable: false,
+
+                series: [
+                    {
+                        name: '对话流程图',
+                        type: 'tree',
+                        orient: 'horizontal',  // vertical horizontal
+                        rootLocation: {x: 100, y: 'center'}, // 根节点位置  {x: 100, y: 'center'}
+                        nodePadding: 50,
+                        itemStyle: {
+                            normal: {
+                                label: {
+                                    show: true,
+                                    formatter: "{b}"
+                                },
+                                lineStyle: {
+                                    color: '#48b',
+                                    shadowColor: '#000',
+                                    shadowBlur: 3,
+                                    shadowOffsetX: 3,
+                                    shadowOffsetY: 5,
+                                    type: 'broken' // 'curve'|'broken'|'solid'|'dotted'|'dashed'
+
+                                }
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true
+                                }
+                            }
+                        },
+
+                        data: [data]
+                    }
+                ]
+            };
+
+            // 结束
+
+            myChart.setOption(option);
+        }
+    );
+
+</script>
+</body>
+</html>

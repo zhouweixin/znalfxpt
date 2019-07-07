@@ -1,8 +1,10 @@
 package com.huawei.service;
 
 import com.huawei.dao.IssueDao;
+import com.huawei.dao.ProcessIssueDao;
 import com.huawei.entity.Issue;
-import com.huawei.entity.User;
+import com.huawei.entity.Process;
+import com.huawei.entity.ProcessIssue;
 import com.huawei.global.ExceptionEnum;
 import com.huawei.global.ExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class IssueService {
@@ -23,6 +22,8 @@ public class IssueService {
     @Autowired
     private IssueDao issueDao;
 
+    @Autowired
+    private ProcessIssueDao processIssueDao;
     /**
      * 新增
      *
@@ -108,5 +109,16 @@ public class IssueService {
 //            return issueDao.findByDomainIdAndTypeId(issueId, typeId);
         }
         return null;
+    }
+
+    public List<Issue> findByProcessId(Integer processId) {
+        Process process = new Process();
+        process.setId(processId);
+        List<ProcessIssue> processIssues = processIssueDao.findByProcess(process);
+        List<Issue> issues = new ArrayList<>();
+        for (ProcessIssue processIssue : processIssues) {
+            issues.add(processIssue.getIssue());
+        }
+        return issues;
     }
 }
