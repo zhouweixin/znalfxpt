@@ -56,7 +56,8 @@ public class ProcessService {
      * @return
      */
     public List<Process> findAll() {
-        return processDao.findAll();
+//        return processDao.findAll();
+        return processDao.findByParentNull();
     }
 
     /**

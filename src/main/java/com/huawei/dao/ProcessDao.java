@@ -1,6 +1,5 @@
 package com.huawei.dao;
 
-import com.huawei.entity.Department;
 import com.huawei.entity.Process;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,4 +34,8 @@ public interface ProcessDao extends JpaRepository<Process, Integer> {
      * @return
      */
     Page<Process> findByNameLike(String name, Pageable pageable);
+
+
+    @Query(value = "select * from process where isnull(process_id)", nativeQuery = true)
+    List<Process> findByParentNull();
 }

@@ -30,7 +30,7 @@ public class Process {
     @Column(columnDefinition = "0")
     private Integer questionType;
 
-    @OneToMany(targetEntity = Process.class, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Process.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "process_id", referencedColumnName = "id")
     private List<Process> processes;
 

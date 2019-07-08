@@ -25,11 +25,7 @@ public class ProcessController {
 
     @PostMapping(value = "/add")
     @ApiOperation(value = "新增", notes = "id自增长不需要传参")
-    public Result<Process> add(@Valid Process process, BindingResult bindingResult){
-        if (bindingResult.hasErrors()) {
-            return ResultUtil.error(bindingResult.getFieldError().getDefaultMessage());
-        }
-
+    public Result<Process> add(@RequestBody Process process){
         return ResultUtil.success(processService.add(process));
     }
 
