@@ -166,10 +166,12 @@
         }
     });
 
+    var myChart;
     require(
         ['echarts', 'echarts/chart/tree'],
         function (ec) {
-            var myChart = ec.init(document.getElementById("main"));
+            myChart = ec.init(document.getElementById("main"));
+            myChart.on("click", clickFun);
             // 修改的代码
             // 开始
             option = {
@@ -225,9 +227,34 @@
 
             // 结束
 
-            myChart.setOption(option);
+            myChart.setOption(option, true);
         }
     );
+
+    function clickFun(param) {
+        if (typeof param.seriesIndex == 'undefined') {
+            return;
+        }
+
+        if (param.type == 'click') {
+            console.log("单击");
+            console.log(param);
+            param.data.children.push({
+                            "id": 5,
+                            "name": null,
+                            "content": "b.CPLD加载",
+                            "userType": 1,
+                            "questionType": 0,
+                            "processes": []
+                        });
+            myChart.refresh();
+        }
+
+    }
+
+    window.addEventListener("resize", ()=>{
+        myChart.resize();
+    });
 
 </script>
 </body>
