@@ -38,4 +38,25 @@ public interface ProcessDao extends JpaRepository<Process, Integer> {
 
     @Query(value = "select * from process where isnull(process_id)", nativeQuery = true)
     List<Process> findByParentNull();
+
+    @Query(value = "select * from process where isnull(process_id) limit 1", nativeQuery = true)
+    Process findProcessRoot();
+
+    @Modifying
+    @Query(value = "update process set process_id=?1 where id=?2", nativeQuery = true)
+    void updateProcessId(Integer processId, Integer id);
+
+    @Query(value = "select id from process where process_id=?1", nativeQuery = true)
+    List<Integer> findIdsByProcessId(Integer processId);
+
+    @Query(value = "select process_id from process where id=?1", nativeQuery = true)
+    Integer findProcessIdById(Integer id);
+
+    @Modifying
+    @Query(value = "update process set process_id=?1 where id in ?2", nativeQuery = true)
+    void updateProcessIdByIdIn(Integer parentId, List<Integer> sonIds);
+
+    @Modifying
+    @Query(value = "delete from process where id=?1", nativeQuery = true)
+    void deleteProcessById(Integer id);
 }

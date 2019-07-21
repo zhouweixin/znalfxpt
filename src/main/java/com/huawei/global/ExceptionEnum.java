@@ -14,6 +14,8 @@ public enum ExceptionEnum {
     ADD_FAILED_DEPARTMENT_NOT_EXISTS(4, "新增失败, 部门不存在"),
     ADD_FAILED_NAME_DUP(5, "新增失败, 名称重复"),
     UPDATE_FAILED_NAME_DUP(6, "更新失败, 名称重复"),
+    PROCESS_ADD_FAILED_PARENT_NOT_EXISTS(7, "新增流程节点失败, 父节点不存在"),
+    DELETE_FAIL_NOT_EXISTS(8, "删除失败, 不存在"),
 
     ;
 

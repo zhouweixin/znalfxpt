@@ -23,10 +23,34 @@ public class ProcessController {
     @Autowired
     private ProcessService processService;
 
+    @PostMapping(value = "/addByJson")
+    @ApiOperation(value = "新增", notes = "id自增长不需要传参")
+    public Result<Process> addByJson(@RequestBody Process process){
+        return ResultUtil.success(processService.addByJson(process));
+    }
+
     @PostMapping(value = "/add")
     @ApiOperation(value = "新增", notes = "id自增长不需要传参")
-    public Result<Process> add(@RequestBody Process process){
-        return ResultUtil.success(processService.add(process));
+    public Result<Process> add(Integer parentId, Integer sonId, Process process, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.error(bindingResult.getFieldError().getDefaultMessage());
+        }
+
+        return ResultUtil.success(processService.add(process, parentId, sonId));
+    }
+
+    @GetMapping(value = "/deleteById")
+    @ApiOperation(value = "通过主键删除")
+    public Result<Object> deleteById(Integer id){
+        processService.deleteById(id);
+        return ResultUtil.success();
+    }
+
+    @GetMapping(value = "/deleteByIdWithSon")
+    @ApiOperation(value = "通过主键删除--级联删除")
+    public Result<Object> deleteByIdWithSon(Integer id){
+        processService.deleteByIdWithSon(id);
+        return ResultUtil.success();
     }
 
     @PostMapping(value = "/update")
@@ -44,6 +68,12 @@ public class ProcessController {
     public Result<Object> deleteByIds(@ApiParam(value = "主键数组") @RequestParam Integer[] ids){
         processService.deleteByIds(ids);
         return ResultUtil.success();
+    }
+
+    @GetMapping(value = "/findProcessRoot")
+    @ApiOperation(value = "查询流程根(只会返回第一个流程)")
+    public Result<Process> findProcessRoot(){
+        return ResultUtil.success(processService.findProcessRoot());
     }
 
     @GetMapping(value = "/findAll")
