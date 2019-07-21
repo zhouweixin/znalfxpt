@@ -42,7 +42,12 @@ public class ProcessService {
         }
 
         if (processDao.findById(parentId).isPresent() == false) {
-            throw ExceptionUtil.newInstance(ExceptionEnum.PROCESS_ADD_FAILED_PARENT_NOT_EXISTS);
+            throw ExceptionUtil.newInstance(ExceptionEnum.ADD_PROCESS_FAILED_PARENT_NOT_EXISTS);
+        }
+
+        Optional<Process> optional = processDao.findById(sonId);
+        if (optional.isPresent() && processDao.judgeParentSon(sonId, parentId) == 0) {
+            throw ExceptionUtil.newInstance(ExceptionEnum.ADD_PROCESS_FAILED_PARENT_SON_NOT_MATCH);
         }
 
         // 1.新增 process
@@ -52,7 +57,7 @@ public class ProcessService {
         processDao.updateProcessId(parentId, pro.getId());
 
         // 3.修改 儿子的processId
-        if (processDao.findById(sonId).isPresent()) {
+        if (optional.isPresent()) {
             processDao.updateProcessId(pro.getId(), sonId);
         }
 
@@ -154,8 +159,10 @@ public class ProcessService {
 
         // 更新儿子的父节点
         List<Integer> sonIds = processDao.findIdsByProcessId(process.getId());
-        Integer parentId = processDao.findProcessIdById(process.getId());
-        processDao.updateProcessIdByIdIn(parentId, sonIds);
+        if(sonIds != null && sonIds.size() > 0) {
+            Integer parentId = processDao.findProcessIdById(process.getId());
+            processDao.updateProcessIdByIdIn(parentId, sonIds);
+        }
 
         // 删除
         processDao.deleteProcessById(id);

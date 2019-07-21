@@ -59,4 +59,7 @@ public interface ProcessDao extends JpaRepository<Process, Integer> {
     @Modifying
     @Query(value = "delete from process where id=?1", nativeQuery = true)
     void deleteProcessById(Integer id);
+
+    @Query(value = "select count(id) from process where id=?1 and process_id=?2", nativeQuery = true)
+    int judgeParentSon(Integer id, Integer processId);
 }

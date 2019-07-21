@@ -1,25 +1,4 @@
-/*
- Navicat Premium Data Transfer
 
- Source Server         : 我的mysql
- Source Server Type    : MySQL
- Source Server Version : 50703
- Source Host           : localhost:3306
- Source Schema         : znalfxpt
-
- Target Server Type    : MySQL
- Target Server Version : 50703
- File Encoding         : 65001
-
- Date: 07/07/2019 17:57:33
-*/
-
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for process
--- ----------------------------
 DROP TABLE IF EXISTS `process`;
 CREATE TABLE `process`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -33,9 +12,6 @@ CREATE TABLE `process`  (
   CONSTRAINT `process_ibfk_1` FOREIGN KEY (`process_id`) REFERENCES `process` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
--- ----------------------------
--- Records of process
--- ----------------------------
 INSERT INTO `process` VALUES (1, '遇到哪方面的问题？', 0, 0, NULL, '我的流程1');
 INSERT INTO `process` VALUES (2, 'FPGA加载不成功', 1, 0, 1, NULL);
 INSERT INTO `process` VALUES (3, '请选择加载模式：\r\n		a.SPI模拟JATG\r\n		b.CPLD加载', 0, 1, 2, NULL);
@@ -53,5 +29,3 @@ INSERT INTO `process` VALUES (14, '网口ping不通', 1, 0, 13, NULL);
 INSERT INTO `process` VALUES (15, '关键现象2', 0, 0, 13, NULL);
 INSERT INTO `process` VALUES (16, '请输入关键现象', 0, 0, 8, NULL);
 INSERT INTO `process` VALUES (17, '关键详细3', 0, 0, 16, NULL);
-
-SET FOREIGN_KEY_CHECKS = 1;
