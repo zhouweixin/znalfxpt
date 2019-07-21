@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>动态添加html</title>
+	<style type="text/css">
+		.div1 {
+			width: 400px;
+			height: 400px;
+			background-color: red;
+		}
+
+		.div2 {
+			width: 50px;
+			height: 50px;
+			background-color: green;
+			margin-bottom: 20px;
+		}
+	</style>
+</head>
+<body>
+	<h1>动态添加html</h1>
+	<button onclick="addElement()">动态添加元素</button>
+	<div class="div1" id="div1"></div>
+
+	<script type="text/javascript">
+		function addElement(){
+			ele = document.getElementById("div1")
+			console.log(ele.innerHTML)
+			ele.innerHTML = ele.innerHTML + "<div class='div2'>动态添加我</div>"
+		}
+	</script>
+</body>
+</html>
