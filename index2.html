@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		#chat {
+			resize:none;
+			border: 1px solid blue;
+			width: 400px;
+			height: 200px;
+			overflow-y: scroll;
+			font-size: 1em;
+		}
+	</style>
+</head>
+<body>
+	<p>请输入文本</p>
+	<p><textarea id="chat"></textarea></p>
+	<!-- <p>用户输入<textarea id="userInput"></textarea></p> -->
+	<p>用户输入<input type="text" id="userInput"></input></p>
+	<p><button onclick="send()">发送</button></p>
+
+	<script type="text/javascript">
+		
+		responseData = 
+		{
+		  "id": 1,
+		  "name": "我的流程1",
+		  "content": "遇到哪方面的问题？",
+		  "userType": 0,
+		  "questionType": 0,
+		  "processes": [
+		    {
+		      "id": 2,
+		      "name": null,
+		      "content": "FPGA加载不成功",
+		      "userType": 1,
+		      "questionType": 0,
+		      "processes": [
+		        {
+		          "id": 3,
+		          "name": null,
+		          "content": "请选择加载模式：\r\n\t\ta.SPI模拟JATG\r\n\t\tb.CPLD加载",
+		          "userType": 0,
+		          "questionType": 1,
+		          "processes": [
+		            {
+		              "id": 4,
+		              "name": null,
+		              "content": "a.SPI模拟JATG",
+		              "userType": 1,
+		              "questionType": 0,
+		              "processes": [
+		                {
+		                  "id": 6,
+		                  "name": null,
+		                  "content": "请选择GPU类型：\r\n\ta.Hi1212\r\n\tb.Hi1213\r\n\tc.Hi1215",
+		                  "userType": 0,
+		                  "questionType": 1,
+		                  "processes": [
+		                    {
+		                      "id": 7,
+		                      "name": null,
+		                      "content": "a.Hi1212",
+		                      "userType": 1,
+		                      "questionType": 0,
+		                      "processes": [
+		                        {
+		                          "id": 13,
+		                          "name": null,
+		                          "content": "请输入关键现象",
+		                          "userType": 0,
+		                          "questionType": 0,
+		                          "processes": [
+		                            {
+		                              "id": 14,
+		                              "name": null,
+		                              "content": "网口ping不通",
+		                              "userType": 1,
+		                              "questionType": 0,
+		                              "processes": [
+		                                
+		                              ]
+		                            },
+		                            {
+		                              "id": 15,
+		                              "name": null,
+		                              "content": "关键现象2",
+		                              "userType": 0,
+		                              "questionType": 0,
+		                              "processes": [
+		                                
+		                              ]
+		                            }
+		                          ]
+		                        }
+		                      ]
+		                    },
+		                    {
+		                      "id": 8,
+		                      "name": null,
+		                      "content": "b.Hi1213",
+		                      "userType": 1,
+		                      "questionType": 0,
+		                      "processes": [
+		                        {
+		                          "id": 16,
+		                          "name": null,
+		                          "content": "请输入关键现象",
+		                          "userType": 0,
+		                          "questionType": 0,
+		                          "processes": [
+		                            {
+		                              "id": 17,
+		                              "name": null,
+		                              "content": "关键现象3",
+		                              "userType": 0,
+		                              "questionType": 0,
+		                              "processes": [
+		                                
+		                              ]
+		                            }
+		                          ]
+		                        }
+		                      ]
+		                    },
+		                    {
+		                      "id": 9,
+		                      "name": null,
+		                      "content": "c.Hi1215",
+		                      "userType": 1,
+		                      "questionType": 0,
+		                      "processes": [
+		                        
+		                      ]
+		                    }
+		                  ]
+		                }
+		              ]
+		            },
+		            {
+		              "id": 5,
+		              "name": null,
+		              "content": "b.CPLD加载",
+		              "userType": 1,
+		              "questionType": 0,
+		              "processes": [
+		                {
+		                  "id": 10,
+		                  "name": null,
+		                  "content": "加载完成后，FPGA指示灯状态：\r\n\ta.亮\r\n\tb.灭",
+		                  "userType": 0,
+		                  "questionType": 1,
+		                  "processes": [
+		                    {
+		                      "id": 11,
+		                      "name": null,
+		                      "content": "a.亮",
+		                      "userType": 1,
+		                      "questionType": 0,
+		                      "processes": [
+		                        
+		                      ]
+		                    },
+		                    {
+		                      "id": 12,
+		                      "name": null,
+		                      "content": "b.灭",
+		                      "userType": 1,
+		                      "questionType": 0,
+		                      "processes": [
+		                        
+		                      ]
+		                    }
+		                  ]
+		                }
+		              ]
+		            }
+		          ]
+		        }
+		      ]
+		    }
+		  ]
+		};
+		node = responseData;
+		var isUser = false;
+		var first = true;
+		chat = document.getElementById("chat");
+		userInput = document.getElementById("userInput");
+		function send() {
+			if (node == undefined) {
+				chat.append("资料库中暂无您的相关问题!\r\n");
+				return;
+			}
+
+			userMsg = userInput.value;
+			if (isUser) { // 人
+				if (userMsg == null || userMsg == undefined || userMsg == ""){
+					alert("请输入内容！")
+					return
+				}
+				chat.append("zwx: \r\n");
+				chat.append(userMsg + "\r\n");
+			} else { // 机器人
+				if(first){
+					chat.append("机器人: \r\n");				
+					chat.append((node.content||"我无话可说") + "\r\n");
+					first = false;
+				} else {
+					var isFind = false; // 匹配成功标志
+					var matchMsg = "";
+					if(node.questionType == 0) { // 问答型
+						for(var i=0; i < node.processes.length; i++){
+						    var process = node.processes[i];
+						　　if(process.content.indexOf(userMsg)>-1){
+								isFind = true;
+								node = node.processes[i].processes[0];
+								matchMsg = process.content;
+								break;
+							}
+						}
+					} else if(node.questionType == 1) { // 选择型
+						for(var i=0; i < node.processes.length; i++){
+						    var process = node.processes[i];
+						　　if(process.content.indexOf(userMsg)==0){
+								isFind = true;
+								node = node.processes[i].processes[0];
+								matchMsg = process.content;
+								break;
+							}
+						}
+					}
+
+					if (node == undefined) {
+						chat.append("资料库中暂无您的相关问题!\r\n");
+						return;
+					}
+
+					if(isFind){
+						chat.append("机器人: \r\n");		
+						chat.append("【"+matchMsg+"】\r\n");		
+						chat.append((node.content||"") + "\r\n");
+					} else {
+						chat.append("资料库中暂无您的相关问题!\r\n");
+					}
+				}
+			}
+			
+			
+			chat.scrollTop = chat.scrollHeight;
+			isUser = !isUser;
+			if (!isUser) {
+				send();
+			}
+			// 清空输入
+			userInput.value = "";
+		}
+		document.onkeydown = function (e) {
+            var theEvent = window.event || e;
+            var code = theEvent.keyCode || theEvent.which;
+            if (code == 13) {
+                send();
+            }
+        }
+		window.onload = send();
+		
+	</script>
+</body>
+</html>
