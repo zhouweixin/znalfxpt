@@ -3,10 +3,10 @@ var urlAddProcess = "/znalfxpt/process/add";
 var urlDeleteById = "/znalfxpt/process/deleteById";
 var urlDeleteByIdWithSon = "/znalfxpt/process/deleteByIdWithSon";
 
-function deleteById (id) {
+function deleteById(id) {
     $.ajax({
         url: urlDeleteById,
-        data: {id:id},
+        data: {id: id},
         type: 'get',
         cache: false,
         dataType: 'json',
@@ -24,10 +24,10 @@ function deleteById (id) {
     });
 }
 
-function deleteByIdWithSon (id) {
+function deleteByIdWithSon(id) {
     $.ajax({
         url: urlDeleteByIdWithSon,
-        data: {id:id},
+        data: {id: id},
         type: 'get',
         cache: false,
         dataType: 'json',
@@ -45,7 +45,7 @@ function deleteByIdWithSon (id) {
     });
 }
 
-function addProcess (data) {
+function addProcess(data) {
     $.ajax({
         url: urlAddProcess,
         data: data,
@@ -57,6 +57,7 @@ function addProcess (data) {
                 alert(result.message);
                 return;
             }
+            findProcessRoot();
 
             alert("新增完成");
         },
@@ -91,19 +92,29 @@ function findProcessRoot() {
 
 // 2.处理数据
 // 定义函数
-function parseData(data) {
+function parseData(data, parentId) {
     if (data == null) {
         return data;
     }
 
     data.value = data.id;
+    data.questionType = data.questionType
+    data.userType = data.userType
+    data.parentId = parentId
+
     data.name1 = data.name;
     data.name = data.content;
     data.children = data.processes;
     data.processes = null;
 
+    sonIds = []
     for (var i = 0; i < data.children.length; i++) {
-        data.children[i] = parseData(data.children[i])
+        sonIds.push(data.children[i].id);
+    }
+    data.sonId = sonIds;
+
+    for (var i = 0; i < data.children.length; i++) {
+        data.children[i] = parseData(data.children[i], data.id)
     }
     return data
 }
@@ -177,6 +188,65 @@ function renderProcess(data) {
             // 结束
 
             myChart.setOption(option);
+            myChart.on("click", function (node) {
+                console.log(node);
+                node = node.data
+
+                $("#node-id").val(node.id);
+                $("#node-content").val(node.content || '');
+                $("#node-user-type").val(node.userType);
+                $("#node-question-type").val(node.questionType);
+                $("#node-parent-id").val(node.parentId || '');
+
+                $("#node-son-id").empty();
+                $("#node-son-id").append("<option id='-1'>无</option>");
+                for(var i=0; i<node.children.length; i++) {
+                    n = node.children[i];
+                    $("#node-son-id").append("<option id='" + n.id + "'>"+n.content+"</option>");
+                }
+            });
         }
     );
+}
+
+function submit() {
+    var node = {}
+
+    node.id = $("#node-id").val();
+    node.content = $("#node-content").val();
+    node.userType = $("#node-user-type").val();
+    node.questionType = $("#node-question-type").val();
+    node.parentId = $("#node-parent-id").val();
+    node.sonId = $("#node-son-id").find("option:selected").attr("id");
+
+    console.log(node);
+    addProcess(node);
+}
+
+function add() {
+    var data = {
+        name: "测试用",
+        content: "测试用",
+        userType: 0,
+        questionType: 0,
+        parentId: 1,
+        sonId: 2
+    }
+    addProcess(data);
+}
+
+function delete1() {
+    deleteById(18);
+}
+
+function delete2() {
+    deleteByIdWithSon(19);
+}
+
+function addNode(){
+    $("#node-parent-id").val($("#node-id").val());
+    $("#node-id").val('');
+    $("#node-content").val('');
+    $("#node-user-type").val('');
+    $("#node-question-type").val('');
 }

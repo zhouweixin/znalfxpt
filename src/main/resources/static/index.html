@@ -12,30 +12,25 @@
 <button onclick="add()">新增流程</button>
 <button onclick="delete1()">删除流程</button>
 <button onclick="delete2()">级联删除</button>
+
+<p>　　　　　　id: <input type="text" id="node-id" readonly></p>
+<p>　　　contnet: <input type="text" id="node-content"></p>
+<p>　　userType: <input type="text" id="node-user-type"></p>
+<p>questionType: <input type="text" id="node-question-type"></p>
+<p>　　parentId: <input type="text" id="node-parent-id" readonly></p>
+<p>　　　　sonId: <select id="node-son-id"></select></p>
+
+
+<p><button onclick="addNode()">新增</button></p>
+<p><button onclick="submit()">提交</button></p>
+
+
 <div id="main" style="height:600px"></div>
 
 <script type="text/javascript">
     findProcessRoot();
 
-    function add() {
-        var data = {
-            name: "测试用",
-            content: "测试用",
-            userType: 0,
-            questionType: 0,
-            parentId: 1,
-            sonId: 2
-        }
-        addProcess(data);
-    }
 
-    function delete1() {
-        deleteById(18);
-    }
-
-    function delete2() {
-        deleteByIdWithSon(19);
-    }
 </script>
 </body>
 </html>
